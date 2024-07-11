@@ -60,7 +60,7 @@ But first, I need to successfully download the MEME suite to the cluster and be 
 Overall, I need to download the source code, install it, and add it to the shell. 
 
 1. Download meme-5.5.0 source code from the website and upload it to my cluster folder by:
-`scp -r ./Downloads/meme-5.5.0/ qw6850@gadi.nci.org.au:/home/552/qw6850`
+`scp ./Downloads/meme-5.5.0.tar qw6850@gadi.nci.org.au:/home/552/qw6850`. Since it is a tar file, unzip it by `tar -xvf meme-5.5.0.tar`
 
 2. Install it following the MEME website
 ```
@@ -69,11 +69,22 @@ make
 make test 
 make install
 ```
-3. To add `meme/bin` to the shell path: in `~/privatemodules` folder, write(nano) a modulefile for meme. Then, `module load use.own`
 
-4. To load the software: `module load meme`
+During this step, I have encountered the `error: Python interpreter is too old` error, which is solved by loading the `python3-as-python` module to the shell environment. I have also encountered the automake problem, but solved it by following the guideline provided with the error message.
 
-5. To start the parallel FIMO scan, do:
+When MEME is successfully installed, I can see the folder in my HOME directory. When I open it, I can see the `meme/bin`.
+
+3. To add `meme/bin` to the shell path: in `~/privatemodules` folder, write(nano) a modulefile for meme. The file is named meme.
+```
+#%Module1.0
+prepend-path PATH /home/552/qw6850/meme/bin
+```
+
+Then, `module load use.own`
+
+7. To load the software: `module load meme`
+
+8. To start the parallel FIMO scan, write a shell script:
 ```
 
 #!/bin/bash
@@ -98,8 +109,7 @@ module load meme
 
 cd /g/data/zk16/qwang/bom/human_18_restricted_cre_no_filter
 
-mkdir human_18_restricted_cre_fimo
-
 ls *.fa | parallel fimo --thresh 0.001 --o {.} /g/data/zk16/cc3704/tools/R/bom_tests/BOM_package/inst/extdata/gimme.vertebrate.v5.0.meme {}
 ```
-qstat -swx 120592068
+
+9. Submit the `fimo_scan.sh` and check its stats by `qstat -swx 120592068`.
