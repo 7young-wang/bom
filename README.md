@@ -86,26 +86,24 @@ Then, `module load use.own`
 
 8. To start the parallel FIMO scan, write a shell script:
 ```
-
 #!/bin/bash
 
-#PBS -q copyq
 #PBS -l storage=scratch/zk16+gdata/zk16
 #PBS -l wd=/g/data/zk16/qwang/bom
 #PBS -M qwang.88@berkeley.edu
 #PBS -m ae
-#PBS -N FIMO
+#PBS -N FIMO_less
 #PBS -e /g/data/zk16/qwang/bom/log
 #PBS -o /g/data/zk16/qwang/bom/log
-#PBS -l ncpus=30
-#PBS -l ngpus=8
-#PBS -l mem=160GB
+#PBS -l ncpus=96
+#PBS -l mem=190GB
 #PBS -l jobfs=200GB
 #PBS -P zk16
 #PBS -l walltime=10:00:00
-  
+
 module load use.own
 module load meme
+module load parallel/20191022
 
 cd /g/data/zk16/qwang/bom/human_18_restricted_cre_no_filter
 
