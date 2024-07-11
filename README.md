@@ -111,3 +111,13 @@ ls *.fa | parallel fimo --thresh 0.001 --o {.} /g/data/zk16/cc3704/tools/R/bom_t
 ```
 
 9. Submit the `fimo_scan.sh` and check its stats by `qstat -swx 120592068`.
+
+## Organize the files
+
+Useful commands:
+- `rm -r directory` and `rm file`
+- `mkdir folder`
+- `mv *.bed bed_files/` move everything ending .bed in the current directory to the directory named `bed_files`
+
+Now, in my bom folder, I have everything organized into the original bed files (one cell type each), and the fasta files generated from these beds, and the fimo scanning results. 
+  
