@@ -146,6 +146,8 @@ module load intel-compiler/2021.10.0
 
 cd /g/data/zk16/qwang/bom
 
+Rscript predict_multi.R "human_18_restricted_cre_no_filter" "multi_count.tsv" "train.rds"
+
 Rscript make_multinomial_tab.R "human_18_restricted_cre_no_filter/fimo_files/" 0.5 "human_18_restricted_cre_no_filter/multi_count.tsv"
 
 Rscript train_multi.R "human_18_restricted_cre_no_filter/multi_count.tsv" "human_18_restricted_cre_no_filter/train.rds"
@@ -167,3 +169,5 @@ The result is stored in `121035381.gadi-pbs.OU` file under the log folder. It to
 Stopping. Best iteration:
 [6734]  train-mlogloss:0.000174 validation-mlogloss:0.000496
 ```
+
+121059726.gadi-pbs
