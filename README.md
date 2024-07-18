@@ -4,9 +4,9 @@
 
 1. Load the required module on shell to be able to enter the R environment. Do `module load intel-compiler/2021.10.0` and `module load R/4.3.1`. To see if desired package is ready to use, use `module avail R` to find which versions on R is available. The intel-compiler is required to understand any icc command.
 
-2. Try to download the required packages and library. Starting with the basic devtools, but failed. I think the R library needs to be built from scratch for each individual user. My personal path to R library is created at: `/home/552/qw6850/R/x86_64-pc-linux-gnu-library/4.3`. This means, each time when I load and use R from my terminal, I am only accessing my personal library. 
+2. Try to download the required packages and library. I think the R library needs to be built from scratch for each individual user. My personal path to R library is created at: `/home/552/qw6850/R/x86_64-pc-linux-gnu-library/4.3`. This means, each time when I load and use R from my terminal, I am only accessing my personal library. 
 
-3. To install package and all its depencencies automatically, use the `command install.packages("devtools", dependencies = TRUE)`
+3. To install package and all its depencencies automatically, use the command `install.packages("devtools", dependencies = TRUE)`
 
 ## Filtering out CREs
 *Note that here I am following the original tutorial to filter out CREs at promoter regions or overlapping with exons.*
@@ -110,7 +110,7 @@ cd /g/data/zk16/qwang/bom/human_18_restricted_cre_no_filter
 ls *.fa | parallel fimo --thresh 0.001 --o {.} /g/data/zk16/cc3704/tools/R/bom_tests/BOM_package/inst/extdata/gimme.vertebrate.v5.0.meme {}
 ```
 
-9. Submit the `fimo_scan.sh` and check its stats by `qstat -swx 120592068`.
+9. Submit `qsub fimo_scan.sh` and check its stats by `qstat -swx 120592068`.
 
 ## Organize the files
 
@@ -120,4 +120,50 @@ Useful commands:
 - `mv *.bed bed_files/` move everything ending .bed in the current directory to the directory named `bed_files`
 
 Now, in my bom folder, I have everything organized into the original bed files (one cell type each), and the fasta files generated from these beds, and the fimo scanning results. 
-  
+
+## Multimodel Training
+
+Adapted the `make_multinomial_tab.R` script from Paola. Input three arguments: the directory where all the celltype/fimo.tsv are stored, the q_value, and the output path. I will use `q_value = 0.5` as in the tutorial. As the files are quite large, I would submit it to Gadi. Though in theory parallel will be the best option, since I am still not quite fluent with it I will start by just submitting. The following script will aggregate the motif counting table, and then submit that exact table to training. Note that I have commented out the `ggplot2` library from the train_multi.R file, as it is not used and is in some kind of conflict with other libararies.
+
+```
+#!/bin/bash
+
+#PBS -l storage=scratch/zk16+gdata/zk16
+#PBS -l wd=/g/data/zk16/qwang/bom
+#PBS -M qwang.88@berkeley.edu
+#PBS -m ae
+#PBS -N multiple_count
+#PBS -e /g/data/zk16/qwang/bom/log
+#PBS -o /g/data/zk16/qwang/bom/log
+#PBS -l ncpus=96
+#PBS -l mem=190GB
+#PBS -l jobfs=200GB
+#PBS -P zk16
+#PBS -l walltime=10:00:00
+
+module load R/4.3.1
+module load intel-compiler/2021.10.0
+
+cd /g/data/zk16/qwang/bom
+
+Rscript make_multinomial_tab.R "human_18_restricted_cre_no_filter/fimo_files/" 0.5 "human_18_restricted_cre_no_filter/multi_count.tsv"
+
+Rscript train_multi.R "human_18_restricted_cre_no_filter/multi_count.tsv" "human_18_restricted_cre_no_filter/train.rds"
+
+```
+
+The result is stored in `121035381.gadi-pbs.OU` file under the log folder. It took me 1:30 min, and the training result is 
+
+```
+ "Training dataset:"
+[1] 95484  1456
+[1] "Validation dataset:"
+[1] 31828  1456
+[1] "Test dataset:"
+[1] 31829  1456
+[1] "Training dataset after filter:"
+[1] 95484  1439
+
+Stopping. Best iteration:
+[6734]  train-mlogloss:0.000174 validation-mlogloss:0.000496
+```
