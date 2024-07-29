@@ -171,3 +171,37 @@ Stopping. Best iteration:
 ```
 
 The result is suprisingly good, if I have done everything correctly. Out of 31829 test data, only 4 got the wrong label. 
+
+## Multimodel training -- with existing motif counts
+
+Once we have gathered the motif counts information, we can try it with different ways of celltype classification. For this, we only need to slightly edit `multi_count.tsv` such that we get right cell types matched.
+
+Then, skip the motif counting step and start training and prediction right with the script
+
+```
+#!/bin/bash
+
+#PBS -l storage=scratch/zk16+gdata/zk16
+#PBS -l wd=/g/data/zk16/qwang/bom
+#PBS -M qwang.88@berkeley.edu
+#PBS -m ae
+#PBS -N multiple_count
+#PBS -e /g/data/zk16/qwang/bom/log
+#PBS -o /g/data/zk16/qwang/bom/log
+#PBS -l ncpus=96
+#PBS -l mem=190GB
+#PBS -l jobfs=200GB
+#PBS -P zk16
+#PBS -l walltime=10:00:00
+
+module load R/4.3.1
+module load intel-compiler/2021.10.0
+
+cd /g/data/zk16/qwang/bom
+
+Rscript train_multi.R "human_26/26_celltype_multicount.tsv" "human_26/train.rds"
+
+Rscript predict_multi.R "human_26" "26_celltype_multicount.tsv" "train.rds"
+
+```
+
