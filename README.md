@@ -199,9 +199,27 @@ module load intel-compiler/2021.10.0
 
 cd /g/data/zk16/qwang/bom
 
-Rscript train_multi.R "human_26/26_celltype_multicount.tsv" "human_26/train.rds"
+Rscript train_multi.R "human_26/26_celltype_multi_count.tsv" "human_26/train.rds"
 
-Rscript predict_multi.R "human_26" "26_celltype_multicount.tsv" "train.rds"
+Rscript predict_multi.R "human_26" "26_celltype_multi_count.tsv" "train.rds"
 
 ```
+The `121971562.gadi-pbs` is the successfully submitted job. It took me 16min to train and validate. The result is as follows:
 
+```
+Stopping. Best iteration:
+[930]   train-mlogloss:0.094140 validation-mlogloss:0.288178
+
+[1] TRUE
+[1] 0
+[1] "Training dataset:"
+[1] 53364  1456
+[1] "Validation dataset:"
+[1] 17788  1456
+[1] "Test dataset:"
+[1] 17789  1456
+[1] "Training dataset after filter:"
+[1] 53364  1425
+```
+
+The loss is somehow much larger than in the 18 cell type case. I am wondering whether not reordering the numeric celltype values could be a problem. 
