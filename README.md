@@ -222,4 +222,5 @@ Stopping. Best iteration:
 [1] 53364  1425
 ```
 
-The loss is somehow much larger than in the 18 cell type case. I am wondering whether not reordering the numeric celltype values could be a problem. 
+The loss is somehow much larger than in the 18 cell type case. I am wondering whether not reordering the numeric celltype values could be a problem. When tested on the test set, 6.8% got the wrong label attached. Some specific celltypes (for example CBGRC) is largely confused from others.
+
