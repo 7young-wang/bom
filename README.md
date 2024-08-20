@@ -46,6 +46,8 @@ Again, enter the R environment and run the following code. Ideally, I should wra
 
 ```
 >BiocManager::install("BSgenome.Hsapiens.UCSC.hg38")
+or
+>BiocManager::install("BSgenome.Mmusculus.UCSC.mm10")
 >library(BagOfMotifs)
 >human <- BSgenome.Hsapiens.UCSC.hg38::BSgenome.Hsapiens.UCSC.hg38
 >generateAllFasta(bedDir = "/g/data/zk16/qwang/bom/human_18_restricted_cre_no_filter/", genome = human, fastaDir="/g/data/zk16/qwang/bom/human_18_restricted_cre_no_filter/")
