@@ -50,7 +50,7 @@ or
 >BiocManager::install("BSgenome.Mmusculus.UCSC.mm10")
 >library(BagOfMotifs)
 >human <- BSgenome.Hsapiens.UCSC.hg38::BSgenome.Hsapiens.UCSC.hg38
->generateAllFasta(bedDir = "/g/data/zk16/qwang/bom/human_18_restricted_cre_no_filter/", genome = human, fastaDir="/g/data/zk16/qwang/bom/human_18_restricted_cre_no_filter/")
+>generateAllFasta(bedDir = "/g/data/zk16/qwang/bom/human_18_restricted_cre_no_filter/bed_files", genome = human, fastaDir="/g/data/zk16/qwang/bom/human_18_restricted_cre_no_filter/fasta_files")
 ```
 
 ## FIMO scan
