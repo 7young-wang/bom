@@ -19,7 +19,7 @@ For the annotation file, I also uploaded the one I downloaded from the gencode w
 `scp ./Downloads/gencode.v46.annotation.gtf qw6850@gadi.nci.org.au:/g/data/zk16/qwang/bom`
 
 If to upload a folder, I can use the code:
-`scp -r ./Desktop/ccre_conserve_summer/human_18_restricted_cre/ qw6850@gadi.nci.org.au:/g/data/zk16/qwang/bom/human_18_restricted_cre_no_filter`
+`scp -r ~/Desktop/ccre_conserve_summer/human_18_restricted_cre/ qw6850@gadi.nci.org.au:/g/data/zk16/qwang/bom/human_18_restricted_cre_no_filter`
 
 After running the R, run the following code:
 
@@ -225,4 +225,9 @@ Stopping. Best iteration:
 ```
 
 The loss is somehow much larger than in the 18 cell type case. I am wondering whether not reordering the numeric celltype values could be a problem. When tested on the test set, 6.8% got the wrong label attached. Some specific celltypes (for example CBGRC) is largely confused from others.
+
+## Processing Mouse 26 Celltype 
+
+Downloaded the CRE files from [CATlas](http://catlas.org/renlab_downloads/wholemousebrain/sa2.subclassv3.final.peak.srt/). Then processed locally on jupyter notebook to remove duplicates (define dulicates as those CREs that are open in more than one celltype among the 26 celltypes we are targeting at). This filtering reduce the number of CREs from 653416 to 178552. Then, upload these bed files to the folder mouse_26. Get the FASTA sequence and do FIMO scanning.
+
 
