@@ -230,4 +230,20 @@ The loss is somehow much larger than in the 18 cell type case. I am wondering wh
 
 Downloaded the CRE files from [CATlas](http://catlas.org/renlab_downloads/wholemousebrain/sa2.subclassv3.final.peak.srt/). Then processed locally on jupyter notebook to remove duplicates (define dulicates as those CREs that are open in more than one celltype among the 26 celltypes we are targeting at). This filtering reduce the number of CREs from 653416 to 178552. Then, upload these bed files to the folder mouse_26. Get the FASTA sequence and do FIMO scanning.
 
+After running through the pipeline, the training was done. The accuracy looks pretty good.
+
+```
+[10000] train-mlogloss:0.000216 validation-mlogloss:0.000956
+[1] TRUE
+[1] 0
+[1] "Training dataset:"
+[1] 107131   1490
+[1] "Validation dataset:"
+[1] 35710  1490
+[1] "Test dataset:"
+[1] 35711  1490
+[1] "Training dataset after filter:"
+[1] 107131   1483
+```
+
 
